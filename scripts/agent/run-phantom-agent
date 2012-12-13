@@ -1,0 +1,3 @@
+#!/bin/bash
+
+phantomjs ./phantom-agent.js $1
