@@ -15,7 +15,7 @@ var OK_STATUSES = [
 var go = function (address) {
   var page = require('webpage').create();
   var results = {
-    address: address,
+    url: address,
     renderTime: null,
     outLinks: [],
     serverErrors: [],

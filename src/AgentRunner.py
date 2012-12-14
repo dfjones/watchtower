@@ -4,7 +4,7 @@ from Config import config
 
 app = Flask(__name__)
 
-@app.route("/crawlUrl", methods=['POST'])
+@app.route("/crawl", methods=['POST'])
 def crawlUrl():
     url = request.form['url']
     res = subprocess.check_output([config['agent'], url], cwd=config['agentDir'])
