@@ -34,14 +34,28 @@ def getStatsPackage(rawStats):
 
 def genDateRanges(slice, numSlices):
     r = []
-    now = datetime.datetime.now()
+    now = mostRecentSliceEnd(slice, datetime.datetime.utcnow())
     gNext = lambda: now - slice
     for i in range(numSlices):
         next = gNext()
         r.append((next, now))
         now = next
     r.reverse()
+    last = r[-1]
+    r.append((last[1], datetime.datetime.utcnow()))
     return r
+
+
+def mostRecentSliceEnd(slice, dt):
+    nh = nearestHour(dt)
+    while nh < dt:
+        p = nh
+        nh = nh + slice
+    return p
+
+
+def nearestHour(dt):
+    return datetime.datetime(dt.year, dt.month, dt.day, dt.hour)
 
 
 def getStatsByDateRange(start, end):
@@ -60,7 +74,7 @@ def getStats(results, countField):
     d = [r[countField] for r in results]
     return {
         "count": len(d),
-        "max": max(d),
+        "max": zeroOrMax(d),
         "median": percentile(d, 0.5),
         "p95": percentile(d, 0.95),
         "p85": percentile(d, 0.85),
@@ -69,20 +83,27 @@ def getStats(results, countField):
     }
 
 
-def avg(N):
-    return float(sum(N))/len(N)
+def zeroOrMax(d):
+    if len(d) > 0:
+        return max(d)
+    return 0
+
+def avg(n):
+    if len(n) > 0:
+        return float(sum(n))/len(n)
+    return 0
 
 
-def percentile(N, percent):
-    if not N:
-        return None
-    N.sort()
-    k = (len(N)-1) * percent
+def percentile(n, percent):
+    if not n or len(n) == 0:
+        return 0
+    n.sort()
+    k = (len(n)-1) * percent
     f = math.floor(k)
     c = math.ceil(k)
     if f == c:
-        return N[int(k)]
-    d0 = N[int(f)] * (c-k)
-    d1 = N[int(c)] * (k-f)
+        return n[int(k)]
+    d0 = n[int(f)] * (c-k)
+    d1 = n[int(c)] * (k-f)
     return d0 + d1
 
