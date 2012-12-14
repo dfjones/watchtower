@@ -9,10 +9,10 @@ app = Flask(__name__)
 def dashboard():
     return render_template('dashboard.html', title="Dashboard", data=getDashboardData())
 
+
 @app.route('/about')
 def about():
     return render_template('about.html', title="About")
-
 
 
 def getDashboardData():
@@ -24,7 +24,7 @@ def getDashboardData():
     errorRecords = DB.getCrawlRecordsWithErrors()
     crawlRecords = DB.getNewestCrawlRecords(limit=50)
 
-    def pr(rows, crawRecords):
+    def pr(rows, crawlRecords):
         seenUrls = {}
         for cr in crawlRecords:
             dashboardRow = {

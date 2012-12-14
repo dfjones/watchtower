@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block title %} Dashboard {% endblock %}
 
+{% macro dataRow(r) %}
+<tr {% if r.errorsPresent == True %} class="error"{% endif %}>
+    <td><a href="{{ r.url }}">{{ r.url }}</a></td>
+    <td>{{ r.renderTime }}</td>
+    <td>{{ r.serverErrors }}</td>
+    <td>{{ r.browserErrors }}</td>
+</tr>
+{% endmacro %}
+
 
 {% block content %}
     <table class="table table-bordered">
@@ -12,20 +21,10 @@
         </thead>
         <tbody>
             {% for r in data.errorRows %}
-            <tr {% if r.errorsPresent == True %} class="error"{% endif %}>
-                <td>{{ r.url }}</td>
-                <td>{{ r.renderTime }}</td>
-                <td>{{ r.serverErrors }}</td>
-                <td>{{ r.browserErrors }}</td>
-            </tr>
+                {{ dataRow(r) }}
             {% endfor %}
             {% for r in data.newestRows %}
-            <tr {% if r.errorsPresent == True %} class="error"{% endif %}>
-                <td>{{ r.url }}</td>
-                <td>{{ r.renderTime }}</td>
-                <td>{{ r.serverErrors }}</td>
-                <td>{{ r.browserErrors }}</td>
-            </tr>
+                {{ dataRow(r) }}
             {% endfor %}
         </tbody>
     </table>
