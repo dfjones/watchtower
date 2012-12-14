@@ -9,7 +9,7 @@ from Config import config
 
 urlRe = re.compile(config['urlFilter'])
 agents = config['agents']
-agentTimeout = 120
+agentTimeout = 300
 
 class CrawlJob(object):
     def __init__(self, agentName, agentUrl, url):
