@@ -79,10 +79,11 @@ def processCrawlJob(crawlJob):
 
 running = True
 if __name__ == '__main__':
-    pool = eventlet.GreenPool(size=10*len(agents))
+    pool = eventlet.GreenPool(size=4*len(agents))
 
     DB.ensure_indexes()
-    DB.addToCrawlQueue(config['startUrl'])
+    if not DB.inCrawlQueue(config['startUrl']):
+        DB.addToCrawlQueue(config['startUrl'])
 
     while running:
         for crawlDoc in DB.getCrawlQueue():
