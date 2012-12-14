@@ -58,7 +58,7 @@ def getCrawlLogData():
 
 
 def getDashboardData():
-    stats = Stats.getStatsSummary(datetime.timedelta(minutes=5), 20)
+    stats = Stats.getStatsSummary(datetime.timedelta(minutes=5), 40)
     return stats
 
 
