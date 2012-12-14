@@ -6,7 +6,13 @@ from Config import config
 
 app = Flask(__name__)
 
+
 @app.route('/')
+def dashboard():
+    return render_template('dashboard.html', title="Dashboard")
+
+
+@app.route('/crawlLog')
 def crawlLog():
     return render_template('crawlLog.html', title="Crawl Log", data=getCrawlLogData())
 
@@ -14,11 +20,6 @@ def crawlLog():
 @app.route('/about')
 def about():
     return render_template('about.html', title="About")
-
-
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html', title="Dashboard")
 
 
 @app.route('/dashboard/stats')
