@@ -12,8 +12,10 @@ def updateStats(crawlRecord):
     }
     DB.url_stats.insert(d)
 
+
 def getStatsForUrl(url):
-    return DB.url_stats.find({"url": url})
+    return DB.url_stats.find({"url": url}).sort({"date": DB.DESCENDING}).limit(100)
+
 
 def getStats(results, countField):
     d = results[countField]
@@ -25,8 +27,10 @@ def getStats(results, countField):
         "avg": avg(d)
     }
 
+
 def avg(N):
     return float(sum(N))/len(N)
+
 
 def percentile(N, percent):
     if not N:
