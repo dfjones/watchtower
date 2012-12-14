@@ -8,6 +8,8 @@ from eventlet.green import urllib2
 from Config import config
 
 urlRe = re.compile(config['urlFilter'])
+excludeUrlRes = [re.compile(r) for r in config['urlExcludes']]
+
 agents = config['agents']
 agentTimeout = 300
 
@@ -38,6 +40,9 @@ def callAgent(crawlJob):
 
 def tryAddUrlToQueue(url):
     if urlRe.match(url):
+        for ere in  excludeUrlRes:
+            if ere.match(url):
+                return
         DB.addToCrawlQueue(url)
 
 
