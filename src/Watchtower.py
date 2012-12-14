@@ -37,7 +37,7 @@ def getCrawlLogData():
     }
 
     errorRecords = DB.getCrawlRecordsWithErrors()
-    crawlRecords = DB.getNewestCrawlRecords(limit=50)
+    crawlRecords = DB.getNewestCrawlRecords(limit=100)
 
     def pr(rows, crawlRecords):
         seenUrls = {}
