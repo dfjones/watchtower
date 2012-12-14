@@ -19,7 +19,7 @@ var go = function (address) {
     renderTime: null,
     outLinks: [],
     serverErrors: [],
-    errors: [] // should be a list of objects
+    browserErrors: [] // should be a list of objects
   };
 
   var startTime = 0;

@@ -47,7 +47,7 @@ def processAgentResponse(resp):
             "url": d['url'],
             "renderTime": d['renderTime'],
             "serverErrors": d['serverErrors'],
-            "clientErrors": d['errors'],
+            "browserErrors": d['browserErrors'],
             "date": datetime.datetime.utcnow()
         }
         DB.addCrawlRecord(crawlRecord)

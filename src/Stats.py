@@ -7,7 +7,7 @@ def updateStats(crawlRecord):
         "url": crawlRecord['url'],
         "renderTime": crawlRecord['renderTime'],
         "serverErrors": len(crawlRecord['serverErrors']),
-        "browserErrors": len(crawlRecord['errors']),
+        "browserErrors": len(crawlRecord['browserErrors']),
         "date": crawlRecord["date"]
     }
     DB.url_stats.insert(d)
