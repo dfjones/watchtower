@@ -25,7 +25,9 @@ def callAgent(crawlJob):
     try:
         request = urllib2.Request(crawlJob.agentUrl, data=data)
         result = urllib2.urlopen(request, timeout=agentTimeout).read()
-    except:
+    except Exception as e:
+        print "Error fetching from agent: ", crawlJob.agentName, crawlJob.url
+        print "Error was: ", e
         result = None
 
     return {
@@ -72,25 +74,13 @@ def processCrawlJob(crawlJob):
 
 running = True
 if __name__ == '__main__':
-    pool = eventlet.GreenPool(size=4*len(agents))
+    pool = eventlet.GreenPool(size=10*len(agents))
 
-    #DB.clearCrawlQueue()
     DB.ensure_indexes()
     DB.addToCrawlQueue(config['startUrl'])
 
     while running:
-        jobs = []
         for crawlDoc in DB.getCrawlQueue():
             for agent in agents:
-                jobs.append(CrawlJob(agent['name'], agent['url'], crawlDoc['url']))
-        for crawlJob in pool.imap(processCrawlJob, jobs):
-            if not crawlJob.success:
-                print "Error processing Crawl Job: ", crawlJob
-
-
-
-
-
-
-
-
+                job = CrawlJob(agent['name'], agent['url'], crawlDoc['url'])
+                pool.spawn(processCrawlJob, job)
