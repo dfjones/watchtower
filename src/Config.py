@@ -7,7 +7,7 @@ config = {
             "url": "http://localhost:8000/crawl"
         },
         {
-            "name": "LA",
+            "name": "San Francisco",
             "url": "http://localhost:8000/crawl"
         }
     ],
