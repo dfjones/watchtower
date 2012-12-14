@@ -38,11 +38,17 @@ def callAgent(crawlJob):
     }
 
 
-def tryAddUrlToQueue(url):
+def urlAllowed(url):
     if urlRe.match(url):
         for ere in  excludeUrlRes:
             if ere.match(url):
-                return
+                return False
+        return True
+    return False
+
+
+def tryAddUrlToQueue(url):
+    if urlAllowed(url):
         DB.addToCrawlQueue(url)
 
 
@@ -87,6 +93,10 @@ if __name__ == '__main__':
 
     while running:
         for crawlDoc in DB.getCrawlQueue():
-            for agent in agents:
-                job = CrawlJob(agent['name'], agent['url'], crawlDoc['url'])
-                pool.spawn(processCrawlJob, job)
+            if urlAllowed(crawlDoc['url']):
+                for agent in agents:
+                    job = CrawlJob(agent['name'], agent['url'], crawlDoc['url'])
+                    pool.spawn(processCrawlJob, job)
+            else:
+                print "Removing URL: ", crawlDoc['url']
+                DB.removeFromCrawlQueue(crawlDoc['url'])

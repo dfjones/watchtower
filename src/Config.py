@@ -14,7 +14,7 @@ config = {
     "startUrl": "http://www.squarespace.com",
     "urlFilter": '.*squarespace.com.*',
     "urlExcludes": [
-        "answers.squarespace.com"
+        ".*answers.squarespace.com.*"
     ],
     "mongo": ('localhost', 27017)
 }
