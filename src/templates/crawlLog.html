@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} Crawl Log {% endblock %}
+
+{% macro dataRow(r) %}
+<tr {% if r.errorsPresent == True %} class="error"{% endif %}>
+    <td><a href="{{ r.url }}">{{ r.url }}</a></td>
+    <td>{{ r.renderTime }}</td>
+    <td>{{ r.serverErrors }}</td>
+    <td>{{ r.browserErrors }}</td>
+</tr>
+{% endmacro %}
+
+
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+            <th>URL</th>
+            <th>Render (ms)</th>
+            <th>Server Errors</th>
+            <th>Browser Errors</th>
+        </thead>
+        <tbody>
+            {% for r in data.errorRows %}
+                {{ dataRow(r) }}
+            {% endfor %}
+            {% for r in data.newestRows %}
+                {{ dataRow(r) }}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

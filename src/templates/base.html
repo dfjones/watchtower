@@ -45,7 +45,8 @@
             <a class="brand" href="/">Watchtower</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li {% if title == 'Dashboard' %} class="active"{% endif %}><a href="/">Dashboard</a></li>
+                    <li {% if title == 'Dashboard' %} class="active" {% endif %}><a href="/dashboard">Dashboard</a></li>
+                    <li {% if title == 'Crawl Log' %} class="active"{% endif %}><a href="/">Crawl Log</a></li>
                     <li {% if title == 'About' %} class="active" {% endif %}><a href="/about">About</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -66,6 +67,9 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/bootstrap.js"></script>
+
+{% block footerjs %}
+{% endblock %}
 
 </body>
 </html>

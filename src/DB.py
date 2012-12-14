@@ -12,9 +12,11 @@ url_stats = db.url_stats
 
 def ensure_indexes():
     crawl_queue.create_index([("url", ASCENDING), ("date", ASCENDING)])
+    crawl_queue.create_index("date")
     crawl_records.create_index([("url", ASCENDING), ("date", DESCENDING)])
     crawl_records.create_index([("date", DESCENDING)])
     url_stats.create_index("url")
+    url_stats.create_index("date")
 
 def addToCrawlQueue(url, date=datetime.datetime.utcnow()):
     if not inCrawlQueue(url):

@@ -74,7 +74,7 @@ running = True
 if __name__ == '__main__':
     pool = eventlet.GreenPool(size=4*len(agents))
 
-    DB.clearCrawlQueue()
+    #DB.clearCrawlQueue()
     DB.ensure_indexes()
     DB.addToCrawlQueue(config['startUrl'])
 
