@@ -45,7 +45,7 @@ def genDateRanges(slice, numSlices):
 
 
 def getStatsByDateRange(start, end):
-    return DB.url_stats.find({"date": {"$gte": start, "$lt": end}})
+    return DB.url_stats.find({"date": {"$gte": start, "$lt": end}}).sort("date", DB.ASCENDING)
 
 
 def getAllStats(limit=200):

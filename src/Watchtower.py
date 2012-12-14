@@ -18,7 +18,15 @@ def about():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', title="Dashboard", data=getDashboardData())
+    return render_template('dashboard.html', title="Dashboard")
+
+
+@app.route('/dashboard/stats')
+def dashboardStats():
+    data = {
+        "stats": getDashboardData()
+    }
+    return jsonify(data)
 
 
 def getCrawlLogData():
@@ -49,7 +57,7 @@ def getCrawlLogData():
 
 
 def getDashboardData():
-    stats = Stats.getStatsSummary(datetime.timedelta(minutes=15), 20)
+    stats = Stats.getStatsSummary(datetime.timedelta(minutes=5), 20)
     return stats
 
 

@@ -2,10 +2,63 @@
 {% block title %} Dashboard {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="span5">
+            <h1>p95 Render Time</h1>
+            <div id="p95RenderTime"></div>
+        </div>
+        <div class="span5">
+            <h1>Avg Render Time</h1>
+            <div id="avgRenderTime"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5">
+            <h1>Total JS Errors</h1>
+            <div id="totalJSErrors"></div>
+        </div>
+        <div class="span5">
+            <h1>Total Server Errors</h1>
+            <div id="totalServerErrors"></div>
+        </div>
+    </div>
 
 {% endblock %}
 
 
 {% block footerjs %}
 <script src="/static/js/jquery.sparkline.js"></script>
+<script>
+    var graphOpts = {
+        width: "100%",
+        height: "400px"
+    };
+
+    var done = function (data) {
+        console.log(data);
+        var renderTimeP95 = [];
+        var renderTimeAvg = [];
+        var jsErrors = [];
+        var serverErrors = [];
+        data.stats.forEach(function (stat) {
+            renderTimeP95.push(stat["renderTime"]["p95"]);
+            renderTimeAvg.push(stat["renderTime"]["avg"]);
+            jsErrors.push(stat["browserErrors"]["max"]);
+            serverErrors.push(stat["serverErrors"]["max"]);
+        });
+        $("#p95RenderTime").sparkline(renderTimeP95, graphOpts);
+        $("#avgRenderTime").sparkline(renderTimeAvg, graphOpts);
+        $("#totalJSErrors").sparkline(jsErrors, graphOpts);
+        $("#totalServerErrors").sparkline(serverErrors, graphOpts);
+    };
+
+    var renderGraph = function () {
+        $.ajax({
+            url: "/dashboard/stats"
+        }).done(done);
+    };
+
+    renderGraph();
+    setInterval(renderGraph, 30000);
+</script>
 {% endblock %}
