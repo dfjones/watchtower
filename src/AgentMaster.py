@@ -51,8 +51,14 @@ def processAgentResponse(resp):
             "browserErrors": d['browserErrors'],
             "date": datetime.datetime.utcnow()
         }
+        updateCrawlRecordErrors(crawlRecord)
         DB.addCrawlRecord(crawlRecord)
         Stats.updateStats(crawlRecord)
+
+def updateCrawlRecordErrors(cr):
+    cr['errorsPresent'] = False
+    if len(cr['serverErrors']) > 0 or len(cr['browserErrors']) > 0:
+        cr['errorsPresent'] = True
 
 
 def processCrawlJob(crawlJob):

@@ -43,4 +43,7 @@ def addCrawlRecord(record):
 def getNewestCrawlRecords(limit=20):
     return crawl_records.find().sort("date", DESCENDING).limit(limit)
 
+def getCrawlRecordsWithErrors(limit=100):
+    return crawl_records.find({"errorsPresent": True}).sort("date", DESCENDING).limit(limit)
+
 

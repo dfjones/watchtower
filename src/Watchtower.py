@@ -16,31 +16,30 @@ def about():
 
 
 def getDashboardData():
-    seenUrls = {}
     data = {
-        "rows": []
+        "errorRows": [],
+        "newestRows": []
     }
+
+    errorRecords = DB.getCrawlRecordsWithErrors()
     crawlRecords = DB.getNewestCrawlRecords(limit=50)
-    for cr in crawlRecords:
-        dashboardRow = {
-            "url": cr['url'],
-            "renderTime": cr['renderTime'],
-            "serverErrors": len(cr['serverErrors']),
-            "browserErrors": len(cr['browserErrors'])
-        }
-        if dashboardRow['url'] not in seenUrls:
-            if dashboardRowHasErrors(dashboardRow):
-                dashboardRow['warn'] = True
-            data['rows'].append(dashboardRow)
-            seenUrls[dashboardRow['url']] = True
+
+    def pr(rows, crawRecords):
+        seenUrls = {}
+        for cr in crawlRecords:
+            dashboardRow = {
+                "url": cr['url'],
+                "renderTime": cr['renderTime'],
+                "serverErrors": len(cr['serverErrors']),
+                "browserErrors": len(cr['browserErrors']),
+                "errorsPresent": cr['errorsPresent']
+            }
+            if dashboardRow['url'] not in seenUrls:
+                rows.append(dashboardRow)
+                seenUrls[dashboardRow['url']] = True
+    pr(data['newestRows'], crawlRecords)
+    pr(data['errorRows'], errorRecords)
     return data
-
-
-def dashboardRowHasErrors(dr):
-    return dr['serverErrors'] > 0 or dr['browserErrors'] > 0
-
-
-
 
 
 if __name__ == '__main__':

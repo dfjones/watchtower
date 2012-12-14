@@ -11,8 +11,16 @@
             <th>Browser Errors</th>
         </thead>
         <tbody>
-            {% for r in data.rows %}
-            <tr {% if r.warn %} class="warning"{% endif %}>
+            {% for r in data.errorRows %}
+            <tr {% if r.errorsPresent == True %} class="error"{% endif %}>
+                <td>{{ r.url }}</td>
+                <td>{{ r.renderTime }}</td>
+                <td>{{ r.serverErrors }}</td>
+                <td>{{ r.browserErrors }}</td>
+            </tr>
+            {% endfor %}
+            {% for r in data.newestRows %}
+            <tr {% if r.errorsPresent == True %} class="error"{% endif %}>
                 <td>{{ r.url }}</td>
                 <td>{{ r.renderTime }}</td>
                 <td>{{ r.serverErrors }}</td>
