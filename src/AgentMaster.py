@@ -1,5 +1,6 @@
 import eventlet
 import DB
+import Stats
 import json
 import re
 import datetime
@@ -51,6 +52,7 @@ def processAgentResponse(resp):
             "date": datetime.datetime.utcnow()
         }
         DB.addCrawlRecord(crawlRecord)
+        Stats.updateStats(crawlRecord)
 
 
 def processCrawlJob(crawlJob):

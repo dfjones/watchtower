@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock %}
+
+
+{% block content %}
+    <table class="table table-bordered">
+        <thead>
+            <th>URL</th>
+            <th>Render (ms)</th>
+            <th>Server Errors</th>
+            <th>Browser Errors</th>
+        </thead>
+        <tbody>
+            {% for r in data.rows %}
+            <tr {% if r.warn %} class="warning"{% endif %}>
+                <td>{{ r.url }}</td>
+                <td>{{ r.renderTime }}</td>
+                <td>{{ r.serverErrors }}</td>
+                <td>{{ r.browserErrors }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

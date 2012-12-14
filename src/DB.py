@@ -40,6 +40,7 @@ def clearCrawlQueue():
 def addCrawlRecord(record):
     return crawl_records.insert(record)
 
-def getCrawlRecords():
-    pass
+def getNewestCrawlRecords(limit=20):
+    return crawl_records.find().sort("date", DESCENDING).limit(limit)
+
 

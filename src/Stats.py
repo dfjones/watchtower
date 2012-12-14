@@ -20,6 +20,8 @@ def getStatsForUrl(url):
 def getStats(results, countField):
     d = results[countField]
     return {
+        "count": len(d),
+        "max": max(d),
         "median": percentile(d, 0.5),
         "p95": percentile(d, 0.95),
         "p85": percentile(d, 0.85),
